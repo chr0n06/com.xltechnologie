@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#EA9624', '#5BA5D8'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#F5F5F5',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#666F77'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+
+            #main-wrapper-content {
+                padding: 10px;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <div id="main-wrapper-content">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-fluid">
+                    <div class="card">
+                        <h1>Rapport de facture</h1>
+                        <h:form>
+                            <p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel for="popup" value="Date" />
+                                    <p:calendar id="popup" value="#{dateBean.date}" />
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Commerce:" for="acSimple"/>
+                                    <p:autoComplete id="acSimple" dropdown="true" value="#{storeBean.name}" completeMethod="#{storeBean.findAllStores}" style="margin-bottom:10px;"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Ville:" for="acSimple" />
+                                    <p:autoComplete id="acVille" dropdown="true" value="#{locationBean.city}" completeMethod="#{locationBean.findAllLocations}" style="margin-bottom:10px;"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Details:"/>
+                                    <p:inputTextarea rows="5" cols="23" autoResize="false" value="N/D"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Categorie" for="acSimple" />
+                                    <p:autoComplete id="acCategorie" dropdown="true" value="#{categoryBean.name}" completeMethod="#{categoryBean.findAllCategories}" style="margin-bottom:10px;"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Projet" for="acProjet" />
+                                    <p:autoComplete id="acProjet" dropdown="true" value="#{projectBean.name}" completeMethod="#{projectBean.findAllProjects}" style="margin-bottom:10px;"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Montant:"/>
+                                    <p:inputNumber  id="acMontant" symbol=" $" symbolPosition="s" required="true"/>
+                                    <p:message for="acMontant" display="text" />
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Facture" />
+                                    <p:inputSwitch value="true" onLabel="Oui" offLabel="Non"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Carte" for="acCompte" />
+                                    <p:autoComplete id="acCompte" dropdown="true" value="#{cardBean.number}" completeMethod="#{cardBean.findAllCards}" style="margin-bottom:10px;"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:outputLabel value="Payé" />
+                                    <p:inputSwitch value="true" onLabel="Oui" offLabel="Non"/>
+                                </p:panelGrid>
+
+                            </p:panelGrid>
+                            <p:commandButton value="Connexion" action="#{loginBean.login}"/>
+                            <p:commandButton id="submitButton" value="Submit" actionListener="#{insertInvoiceBean.insertInvoice}" styleClass="GreenButton"/>
+                        </h:form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
